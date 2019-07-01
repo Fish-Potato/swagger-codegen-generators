@@ -6,6 +6,8 @@ import {{invokerPackage}}.ApiClient;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.ihomefnt.semporna.http.annotation.Caller;
+
 {{^fullJavaUtil}}
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,12 +20,8 @@ import java.util.Map;
  */
 public class {{classname}}Test {
 
+    @Caller
     private {{classname}} api;
-
-    @Before
-    public void setup() {
-        api = new ApiClient().createService({{classname}}.class);
-    }
 
     {{#operations}}
     {{#operation}}

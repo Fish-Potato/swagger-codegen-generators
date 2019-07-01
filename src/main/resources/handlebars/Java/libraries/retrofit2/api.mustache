@@ -1,12 +1,10 @@
 package {{package}};
 
-import {{invokerPackage}}.CollectionFormats.*;
-
 {{#useRxJava}}
 import rx.Observable;
 {{/useRxJava}}
 {{#useRxJava2}}
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 {{/useRxJava2}}
 {{#doNotUseRx}}
 import retrofit2.Call;
@@ -15,6 +13,8 @@ import retrofit2.http.*;
 
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+
+import com.ihomefnt.semporna.http.annotation.ApiEntry;
 
 {{#imports}}import {{import}};
 {{/imports}}
@@ -27,6 +27,7 @@ import java.util.Map;
 {{/fullJavaUtil}}
 
 {{#operations}}
+@ApiEntry(baseApp= "{{targetApp}}")
 public interface {{classname}} {
   {{#operation}}
   {{#contents}}
@@ -57,7 +58,7 @@ public interface {{classname}} {
   {{/prioritizedContentTypes}}
   {{/formParams}}  
   @{{httpMethod}}("{{{path}}}")
-  {{^doNotUseRx}}Observable{{/doNotUseRx}}{{#doNotUseRx}}Call{{/doNotUseRx}}<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}{{/isResponseFile}}> {{operationId}}({{^parameters}});{{/parameters}}
+  {{^doNotUseRx}}Flowable{{/doNotUseRx}}{{#doNotUseRx}}Call{{/doNotUseRx}}<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}{{/isResponseFile}}> {{operationId}}({{^parameters}});{{/parameters}}
     {{#parameters}}{{>libraries/retrofit2/queryParams}}{{>libraries/retrofit2/pathParams}}{{>libraries/retrofit2/headerParams}}{{>libraries/retrofit2/bodyParams}}{{>libraries/retrofit2/formParams}}{{#has this 'more'}}, {{/has}}{{#hasNot this 'more'}}
   );{{/hasNot}}{{/parameters}}
 
